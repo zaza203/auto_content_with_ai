@@ -32,18 +32,18 @@ export async function generateStory(): Promise<StoryData> {
   const selectedNiche = niches[Math.floor(Math.random() * niches.length)];
   
   // Use both OpenAI and Gemini for enhanced creativity
-  const openaiStory = await generateWithOpenAI(selectedNiche);
+  // const openaiStory = await generateWithOpenAI(selectedNiche);
   const geminiStory = await generateWithGemini(selectedNiche);
   
   // Combine and enhance both stories
-  const finalStory = await combineStories(openaiStory, geminiStory, selectedNiche);
+  // const finalStory = await combineStories(openaiStory, geminiStory, selectedNiche);
   
   return {
-    title: finalStory.title,
+    title: geminiStory.title,
     niche: selectedNiche,
-    content: finalStory.content,
-    keywords: extractKeywords(finalStory.content),
-    tags: generateTags(selectedNiche, finalStory.content)
+    content: geminiStory.content,
+    keywords: extractKeywords(geminiStory.content),
+    tags: generateTags(selectedNiche, geminiStory.content)
   };
 }
 
@@ -79,7 +79,7 @@ async function generateWithOpenAI(niche: string): Promise<any> {
 }
 
 async function generateWithGemini(niche: string): Promise<any> {
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
   
   const prompt = `Write an incredible ${niche} story that's perfect for video content. Requirements:
   
